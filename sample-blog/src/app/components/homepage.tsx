@@ -10,6 +10,7 @@ import {
     PaginationPrevious
 } from "@/components/ui/pagination"
 import {Post} from "@/app/models/data.model";
+import MenuBar from "@/app/components/menu";
 
 export default async function Homepage() {
     const data = await getPosts();
@@ -19,6 +20,7 @@ export default async function Homepage() {
     }
     return (
         <>
+            <MenuBar/>
             <div className={'flex flex-wrap h-5/6 justify-center align-items-center'}>
                 <PostComponent
                     posts={paginatedData}

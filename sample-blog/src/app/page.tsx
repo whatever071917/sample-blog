@@ -28,7 +28,6 @@ export default function Home() {
         <h1>Sample blog</h1>
       </div>
       <div className="flex flex-wrap h-5/6 justify-center items-center">
-        // @ts-ignore
         <PostComponent posts={data} />
       </div>
     </>

@@ -10,6 +10,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "@/components/ui/pagination";
+import {Progress} from "@/components/ui/progress";
 
 // Constants for CSS classnames
 const cardClass = "w-full h-full m-5 cursor-pointer bg-white rounded-md";
@@ -24,6 +25,9 @@ export default function PostDetail(postProps: { id: number | undefined; userId: 
   const [post, setPost] = useState<Post | undefined>(undefined);
   const [paginatedComments, setPaginatedComments] = useState<Comment[][]>([]);
   const [currentPage, setCurrentPage] = useState(INITIAL_PAGE);
+  const [progress, setProgress] = useState(10);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const fetchData = async () => {
     if (postProps.id === undefined || postProps.userId === undefined) return;
@@ -37,6 +41,10 @@ export default function PostDetail(postProps: { id: number | undefined; userId: 
       });
       const paginated = paginate(fetchedComments, DEFAULT_PAGE_SIZE);
       setPaginatedComments(paginated);
+      setTimeout(() => {
+        setProgress(100);
+        setIsLoading(false);
+      },500)
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -53,7 +61,7 @@ export default function PostDetail(postProps: { id: number | undefined; userId: 
   }, []);
 
   const renderPagination = () => (
-    <Pagination className="text-white bg-zinc-800 h-44">
+    <Pagination className="text-white h-20">
       <PaginationContent>
         <PaginationItem className="p-10">
           <PaginationPrevious
@@ -108,25 +116,39 @@ export default function PostDetail(postProps: { id: number | undefined; userId: 
     );
   }
 
+  const renderPost = () => {
+    return (
+      <Card key={post?.id} className={cardClass}>
+        <CardHeader className={cardHeaderClass}>
+          <CardTitle className={cardTitleClass}>
+            <div className="flex">Title: {post?.title}</div>
+            <div className="text-lg">Author: {post?.username}</div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm p-2">{post?.body}</p>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <>
-      <div className="flex flex-wrap justify-center items-center h-1/3 w-full">
-        <Card key={post?.id} className={cardClass}>
-          <CardHeader className={cardHeaderClass}>
-            <CardTitle className={cardTitleClass}>
-              <div className="flex">Title: {post?.title}</div>
-              <div className="text-lg">Author: {post?.username}</div>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm p-2">{post?.body}</p>
-          </CardContent>
-        </Card>
-      </div>
-      <div className={'h-2/3 w-full'}>
-        {renderCommentList()}
-        {renderPagination()}
-      </div>
+      {isLoading &&
+          <Progress value={progress} className="w-[60%]"/>
+      }
+      {!isLoading &&
+          <div>
+              <div className="flex flex-wrap justify-center items-center h-1/3 w-full">
+                {renderPost()}
+              </div>
+              <div className={'h-2/3 w-full'}>
+                {renderCommentList()}
+                {renderPagination()}
+              </div>
+          </div>
+      }
     </>
-  );
+  )
+    ;
 }

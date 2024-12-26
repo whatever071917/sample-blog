@@ -64,7 +64,7 @@ export default function PostComponent(props: { posts: Post[] }) {
     ));
 
   const renderPagination = () => (
-    <Pagination className="text-white bg-zinc-800 h-44">
+    <Pagination className="text-white h-20">
       <PaginationContent>
         <PaginationItem className="p-10">
           <PaginationPrevious
@@ -103,7 +103,7 @@ export default function PostComponent(props: { posts: Post[] }) {
     <>
       {isPostDetailVisible ? (
         <>
-          <div className="flex flex-wrap justify-center items-center h-5/6">
+          <div className="flex flex-wrap justify-center items-center">
             {renderPosts()}
           </div>
           {renderPagination()}

@@ -16,7 +16,6 @@ import {Progress} from "@/components/ui/progress";
 const cardClass = "w-full h-full m-5 cursor-pointer bg-white rounded-md";
 const cardHeaderClass = "flex align-items-center";
 const cardTitleClass = "font-bold flex flex-col text-lg p-2";
-const commentContainerClass = "bg-white rounded-md";
 
 const DEFAULT_PAGE_SIZE = 9;
 const INITIAL_PAGE = 1;

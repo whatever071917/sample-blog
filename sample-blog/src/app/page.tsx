@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { getPosts } from "@/app/services/fetch-data";
 import { Post } from "@/app/models/data.model";
 
-// Explicitly typing PostComponent
 const PostComponent = dynamic<any>(() =>
     import("@/app/pages/posts/page"),
   { ssr: false }

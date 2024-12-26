@@ -20,13 +20,13 @@ const PostDetail = dynamic<any>(() => import("@/app/pages/posts/[id]"), {ssr: fa
 const DEFAULT_PAGE_SIZE = 9;
 const INITIAL_PAGE = 1;
 
+// @ts-ignore
 export default function PostComponent(props: {posts: Post[]}) {
   const [selectedPostId, setSelectedPostId] = useState<number>();
   const [selectedUserId, setSelectedUserId] = useState<number>();
   const [isPostDetailVisible, setShowPostDetail] = useState<boolean>(true);
   const [paginatedData, setPaginatedData] = useState<Post[][]>([]);
   const [currentPage, setCurrentPage] = useState(INITIAL_PAGE);
-  const [posts, setPosts] = useState<Post[]>([]);
 
   const paginate = (data: Post[], pageSize: number): Post[][] =>
     Array.from(
@@ -35,7 +35,6 @@ export default function PostComponent(props: {posts: Post[]}) {
     );
 
   useEffect(() => {
-    setPosts(props.posts || []);
     const paginated = paginate(props.posts, DEFAULT_PAGE_SIZE);
     setPaginatedData(paginated);
   }, [props.posts]);

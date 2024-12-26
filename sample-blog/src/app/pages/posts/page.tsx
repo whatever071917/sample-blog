@@ -20,7 +20,6 @@ const PostDetail = dynamic<any>(() => import("@/app/pages/posts/[id]"), {ssr: fa
 const DEFAULT_PAGE_SIZE = 9;
 const INITIAL_PAGE = 1;
 
-// @ts-ignore
 export default function PostComponent(props: {posts: Post[]}) {
   const [selectedPostId, setSelectedPostId] = useState<number>();
   const [selectedUserId, setSelectedUserId] = useState<number>();

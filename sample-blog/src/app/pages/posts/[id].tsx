@@ -10,7 +10,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "@/components/ui/pagination";
-import {Progress} from "@/components/ui/progress";
+import {Skeleton} from "@/components/ui/skeleton";
 
 // Constants for CSS classnames
 const cardClass = "w-full h-full m-5 cursor-pointer bg-white rounded-md";
@@ -24,12 +24,11 @@ export default function PostDetail(postProps: { id: number | undefined; userId: 
   const [post, setPost] = useState<Post | undefined>(undefined);
   const [paginatedComments, setPaginatedComments] = useState<Comment[][]>([]);
   const [currentPage, setCurrentPage] = useState(INITIAL_PAGE);
-  const [progress, setProgress] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
 
 
   const fetchData = async () => {
-    if (postProps.id === undefined || postProps.userId === undefined) return;
+    if (!postProps.id || !postProps.userId) return;
     try {
       const postData = await getPostDetail(postProps.id);
       const userData = await getUseDetail(postProps.userId);
@@ -39,11 +38,8 @@ export default function PostDetail(postProps: { id: number | undefined; userId: 
         username: userData.username,
       });
       const paginated = paginate(fetchedComments, DEFAULT_PAGE_SIZE);
+      if (postData && userData && paginated) setIsLoading(false);
       setPaginatedComments(paginated);
-      setTimeout(() => {
-        setProgress(100);
-        setIsLoading(false);
-      },500)
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -134,7 +130,13 @@ export default function PostDetail(postProps: { id: number | undefined; userId: 
   return (
     <>
       {isLoading &&
-          <Progress value={progress} className="w-[60%]"/>
+          <div className="flex flex-col space-y-3">
+              <Skeleton className="h-[125px] w-[250px] rounded-xl bg-gray-300"/>
+              <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px] bg-gray-300"/>
+                  <Skeleton className="h-4 w-[200px] bg-gray-300"/>
+              </div>
+          </div>
       }
       {!isLoading &&
           <div>

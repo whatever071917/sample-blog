@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <>
       <div className={"text-white flex items-center text-lg p-5 h-8 bg-zinc-800"}>
-        <h1>Sample blog</h1>
+        <h1>Sample blog (Menu placeholder)</h1>
       </div>
       <div className="flex flex-wrap h-5/6 justify-center items-center">
         <PostComponent posts={data} />
